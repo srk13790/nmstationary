@@ -158,7 +158,7 @@ body {
   background: #1a1a1a;
 }
 .login-bg{
-    background-image: url(http://localhost/mydemo/assets/login_img/stationary.png);
+    background-image: url(http://localhost/project/assets/login_img/stationary.png);
     background-size: cover;
     height: 100vh;
     background-position: bottom;
@@ -323,11 +323,15 @@ body {
           if($_SESSION['error'] =='signup_blank'){
           ?>
         <h3>All fields are required in registration form !</h3>
-          <?php unset($_SESSION['error']);}?>
-          <?php
-          if($_SESSION['error'] =='signup_success'){
+          <?php unset($_SESSION['error']);}
+          
+          else if($_SESSION['error'] =='signup_success'){
           ?>
         <h3>You have been successfully registered ! Please Check your mailbox and confirm that you are valid user.</h3>
+          <?php unset($_SESSION['error']);}
+          else if($_SESSION['error'] =='invalid'){
+          ?>
+        <h3>Invalid Email or Password !</h3>
           <?php unset($_SESSION['error']);}?>
       </div>
       <div class="modal-footer">

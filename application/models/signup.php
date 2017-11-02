@@ -1,6 +1,6 @@
 <?php
 
-class Signup extends NM_Model{
+class Signup extends CI_Model{
     
     public function adduser($data) {
         //print_r($data);exit;
@@ -10,7 +10,8 @@ class Signup extends NM_Model{
     
     public function validateuser($email,$password) {
         //print_r($data);exit;
-        $query=$this->db->query("select user_id from users where email='$email' and password='$password'");
+        
+        $query=$this->db->query("select user_id,module,name from users where email='$email' and password='$password'");
         $no=$query->num_rows();
         if($no == 1)
         {

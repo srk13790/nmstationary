@@ -1,12 +1,8 @@
 <?php
 
-class Login extends NM_controller{
+class Login extends CI_controller{
     public function __construct() {
         parent::__construct();
-        if(empty($this->session->userdata("user_id")))
-         {
-         redirect('Login');
-         }
          $this->load->model('signup');
     }
     
@@ -60,20 +56,30 @@ class Login extends NM_controller{
               $this->session->set_userdata('success',$login);
               $this->session->userdata('success');
               $uid=$login['user_id'];
+              $module=$login['module'];
+              $name=$login['name'];
               $this->session->set_userdata('user_id',$uid);
+              $this->session->set_userdata('module',$module);
+              $this->session->set_userdata('name',$name);
               if($module ==1){
-                  redirect('Superadmin/dashboard');
+                  redirect('Admin/homepage');
               }
-              if($module ==2){
-                  redirect('Admin/dashboard');
+              else if($module ==2){
+                  redirect('Maker/homepage');
+              }
+              else if($module ==3){
+                  redirect('Checker/homepage');
+              }
+              else{
+                  $this->session->set_userdata('error','invalid');
+                  redirect('Login/index');
               }
               
             }
             else
             {   
-            $this->session->set_userdata('inavlid','invalid');
-            //   $this->load->view('admin_dashboard',$data);
-            $this->load->view('login',$data);
+            $this->session->set_userdata('error','invalid');
+            redirect('Login/index');
             }
             
         }
