@@ -13,6 +13,12 @@ class Admin_model extends CI_Model{
         return $data=$query->result_array();
     }
     
+    public function getpendingorderinfo($user_id) {
+        //print("SELECT p.product_name,mo.`order_id`,mo.`product_id`,mo.`user_id`,mo.`quantity`,mo.`price`,mo.`status` FROM `myorder` mo inner join product p where mo.user_id='$user_id' and p.product_id=mo.product_id");exit;
+        $query=$this->db->query("SELECT u.name,u.company_name,u.department_name,p.product_id,p.product_name,p.product_price,p.product_box,mo.`order_id`,mo.`product_id`,mo.`user_id`,mo.`quantity`,mo.quantity_type,mo.`price`,mo.`status` FROM `myorder` mo inner join product p inner join users u where mo.user_id=u.user_id and mo.status='Sent' and mo.cancel_status='' and p.product_id=mo.product_id");
+        return $data=$query->result_array();
+    }
+    
     public function getproductinfo() {
         $query=$this->db->query("SELECT * from product where status='Show'");
         return $data=$query->result_array();
