@@ -36,6 +36,7 @@
     <link href="<?php echo base_url();?>assets/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.5.1/chosen.jquery.min.js"></script>
+    <script src="<?php echo base_url();?>assets/plugins/jquery/jquery.min.js"></script>
     
     <style>
         .form-group .form-line .form-label {
@@ -56,6 +57,65 @@
         document.getElementById('product_id').value=ab;
     }
     </script>
+    
+<!--    <script type="text/javascript">
+
+   $(document).ready(function() { 
+        $("#quantity_type").change(function(){
+                alert("hi");
+                 var a= $('#quantity_type').val();
+                 var b= $('#quantity').val();
+                 alert(a);
+//                    $.ajax({
+//                    url:"<?php echo base_url();?>Ajaxcall/getprice/",
+//                    data: {quantity_type: $(this).val()},
+//                    type: "POST",
+//                    success:function(data){
+//                        $("#price").html(data);
+//                    }
+//                 });
+               });
+            });
+
+   </script>-->
+    
+<!--    <script>
+   function getprice(str) {
+       
+      var qtype=str;
+      var quantity= document.getElementById('quantity').value;
+      var abc=qtype+"&"+quantity;
+       
+     var xhttp = new XMLHttpRequest();
+     xhttp.onreadystatechange = function() {
+       if (xhttp.readyState == 4 && xhttp.status == 200) {
+         document.getElementById("price").innerHTML = xhttp.responseText;
+       }
+     };
+     xhttp.open("POST", "<?php base_url()?>Ajaxcall/getprice/"+abc, true);
+     xhttp.send();
+   }
+   </script>-->
+    
+    <script type="text/javascript">
+    function fetch_select(val)
+    {
+     var quan=document.getElementById('quantity').value;
+     $.ajax({
+     type: 'post',
+     url: '<?php base_url()?>Ajaxcall/getprice',
+     data: {
+      get_option:val,
+      quantity:quan,
+     },
+     success: function (response) {
+      document.getElementById("price").innerHTML=response; 
+     }
+     });
+    }
+
+    </script>
+    
 </head>
 
 <body class="theme-red">
@@ -94,7 +154,7 @@
         <div class="container-fluid">
         
             <?php
-            $_SESSION['errors'] =='order_saved';
+            //$_SESSION['errors'] =='order_saved';
             if(isset($_SESSION['errors'])){
                 if($_SESSION['errors'] =='order_saved'){
                 ?>
@@ -153,10 +213,17 @@
                                                 <label class="form-label">Select Product</label>
                                             </div>
                                         </div>
-
+                                        
                                         <div class="form-group form-float">
                                             <div class="form-line">
-                                                <select id="quantity-type" class="form-control" name="quantity_type" required>
+                                                <input type="text" name="quantity" id="quantity" class="form-control" required>
+                                                <label class="form-label">Quantity</label>
+                                            </div>
+                                        </div>
+                                    
+                                        <div class="form-group form-float">
+                                            <div class="form-line">
+                                                <select id="quantity-type" name="quantity_type" class="form-control" required>
                                                     <option value="">Select Whether you want it in box or separate</option>
                                                     <option value="Each">Each</option>
                                                     <option value="Box">Box</option>
@@ -165,19 +232,6 @@
                                             </div>
                                         </div>
                                         
-                                        <div class="form-group form-float">
-                                            <div class="form-line">
-                                                <input type="text" name="quantity" class="form-control" required>
-                                                <label class="form-label">Quantity</label>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="form-group form-float">
-                                            <div class="form-line">
-                                                <input type="text" name="price" class="form-control" required>
-                                                <label class="form-label">Price</label>
-                                            </div>
-                                        </div>
                                 </div>
                             </div>
                         </div>
@@ -214,7 +268,7 @@
                                     <th>Product Name</th>
                                     <th>Quantity</th>
                                     <th>Price</th>
-                                    <th>Order Status</th>
+                                    <th>Order Status(Saved/Sent)</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
@@ -229,11 +283,168 @@
                                         <td><?php echo $mo['product_name'];?></td>
                                         <td><?php echo $mo['quantity'];?></td>
                                         <td>&#8377; <?php echo $mo['price'];?></td>
-                                        <td>&#8377; <?php echo $mo['price'];?></td>
                                         <td>
-                                            <button type="button" class="btn btn-primary btn-circle waves-effect waves-circle waves-float">
-                                                <i class="material-icons">pencil</i>
+                                           <?php 
+                                           if($mo['status'] =='')
+                                           { $order_id=$mo['order_id'];
+                                             $key="13790";
+                                             $order_id=  base64_encode($order_id*$key);
+                                            ?>
+                                            <a type="button" class="btn bg-green waves-effect" data-toggle="modal" data-target="#update<?php echo $mo['order_id'];?>" style="cursor: pointer;">
+                                              Order Saved  
+                                            </a>
+                                            <!---------Update Popup--------->
+                                            <div class="modal fade in" id="update<?php echo $mo['order_id'];?>" tabindex="-1" role="dialog">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title" id="defaultModalLabel">Your Order</h4>
+                                                        </div>
+                                                        <?php
+                                                        echo form_open('Maker/placeorder');
+                                                        ?>
+                                                        <div class="modal-body">
+                                                            <div class="card">
+                                <!--                                <div class="header">
+                                                                    <h2>
+                                                                        VERTICAL LAYOUT
+                                                                        <small>With floating label</small>
+                                                                    </h2>
+
+                                                                </div>-->
+                                                                <div class="body">
+                                                                   <div class="body table-responsive">
+                                                                    <table class="table table-bordered">
+                                                                        
+                                                                            <tr>
+                                                                                <th>Product Name</th>
+                                                                                <td><?php echo $mo['product_name'];?></td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Quantity</th>
+                                                                                <td>
+                                                                                    <?php echo $qu=$mo['quantity'];?> <?php echo $mo['quantity_type'];?>
+                                                                                
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Price Of Product</th>
+                                                                                <td><?php echo $pr=$mo['product_price'];?></td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Total Price</th>
+                                                                                <td><?php echo ($qu * $pr);?></td>
+                                                                            </tr>
+                                                                        
+                                                                    </table>
+                                                                </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <input type="hidden" name="order_id" value="<?php echo $order_id;?>">
+                                                            <button type="submit" class="btn bg-green waves-effect">Place My Order</button>
+                                                            <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">CLOSE</button>
+                                                        </div>
+                                                        <?php
+                                                        echo form_close()
+                                                        ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!------------End Update Popup-------------->
+                                           <?php }else{
+                                               echo "<b>Order Sent</b>";
+                                           }?>
+                                            
+                                        </td>
+                                        <td>
+                                            <?php 
+                                           if($mo['status'] =='')
+                                           { ?>
+                                            <button type="button" data-toggle="modal" data-target="#updateprod<?php echo $mo['order_id'];?>" class="btn btn-primary btn-circle waves-effect waves-circle waves-float">
+                                                <i class="material-icons">create</i>
                                             </button>
+                                            
+                                            <!---------Update Popup--------->
+                                            <div class="modal fade in" id="updateprod<?php echo $mo['order_id'];?>" tabindex="-1" role="dialog">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title" id="defaultModalLabel">Your Order</h4>
+                                                        </div>
+                                                        <?php
+                                                        $order_id=$mo['order_id'];
+                                                        $product_id=$mo['product_id'];
+                                                        $key="13790";
+                                                        $order_id=  base64_encode($order_id*$key);
+                                                        $product_id=  base64_encode($product_id*$key);
+                                                        echo form_open('Maker/updateorder');
+                                                        ?>
+                                                        <div class="modal-body">
+                                                            <div class="card">
+                                <!--                                <div class="header">
+                                                                    <h2>
+                                                                        VERTICAL LAYOUT
+                                                                        <small>With floating label</small>
+                                                                    </h2>
+
+                                                                </div>-->
+                                                                <div class="body">
+                                                                   <div class="body table-responsive">
+                                                                    <table class="table table-bordered">
+                                                                        
+                                                                            <tr>
+                                                                                <th>Product Name</th>
+                                                                                <td><?php echo $mo['product_name'];?></td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Quantity</th>
+                                                                                <td>
+                                                                                    <input type="text" name="quantity" class="form-control" value="<?php echo $mo['quantity'];?>" required>
+                                                                                    
+                                                                                </td>
+                                                                            </tr>
+                                                                            
+                                                                            <tr>
+                                                                                <th>Quantity Type</th>
+                                                                                <td>
+                                                                                    <select name="quantity_type" class="form-control" required>
+                                                                                        <?php if($mo['quantity_type']=='Box' || $mo['quantity_type']=='Boxes' ){?>
+                                                                                        <option value="<?php echo $mo['quantity_type'];?>"><?php echo $mo['quantity_type'];?></option>
+                                                                                        <option value="Each">Each</option>
+                                                                                        <?php }else{?>
+                                                                                        <option value="<?php echo $mo['quantity_type'];?>"><?php echo $mo['quantity_type'];?></option>
+                                                                                        <option value="Box">Boxes</option>
+                                                                                        <?php }?>
+                                                                                    </select>
+                                                                                    
+                                                                                </td>
+                                                                            </tr>
+                                                                            
+                                                                        
+                                                                    </table>
+                                                                </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <input type="hidden" name="order_id" value="<?php echo $order_id;?>">
+                                                            <input type="hidden" name="product_id" value="<?php echo $product_id;?>">
+                                                            <button type="submit" class="btn bg-green waves-effect">Update My Order</button>
+                                                            <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">CLOSE</button>
+                                                        </div>
+                                                        <?php
+                                                        echo form_close()
+                                                        ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!------------End Update Popup-------------->
+                                           <?php }else{
+                                               
+                                               echo "NA";
+                                           }?>
                                         </td>
                                     </tr>
                                     <?php }?>
