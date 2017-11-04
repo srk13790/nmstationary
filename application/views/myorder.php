@@ -268,7 +268,7 @@
                                     <th>Product Name</th>
                                     <th>Quantity</th>
                                     <th>Price</th>
-                                    <th>Order Status(Saved/Sent)</th>
+                                    <th>Order Status</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
@@ -285,12 +285,12 @@
                                         <td>&#8377; <?php echo $mo['price'];?></td>
                                         <td>
                                            <?php 
-                                           if($mo['status'] =='')
+                                           if($mo['status'] =='' && $mo['approve_status'] =='')
                                            { $order_id=$mo['order_id'];
                                              $key="13790";
                                              $order_id=  base64_encode($order_id*$key);
                                             ?>
-                                            <a type="button" class="btn bg-green waves-effect" data-toggle="modal" data-target="#update<?php echo $mo['order_id'];?>" style="cursor: pointer;">
+                                            <a type="button" class="btn bg-teal waves-effect" data-toggle="modal" data-target="#update<?php echo $mo['order_id'];?>" style="cursor: pointer;">
                                               Order Saved  
                                             </a>
                                             <!---------Update Popup--------->
@@ -353,14 +353,63 @@
                                                 </div>
                                             </div>
                                             <!------------End Update Popup-------------->
-                                           <?php }else{
+                                           <?php }
+                                           else if($mo['approve_status'] =='No'){?>
+                                            <a type="button" class="btn bg-red waves-effect" data-toggle="modal" data-target="#disapprove<?php echo $mo['order_id'];?>" style="cursor: pointer;">
+                                              Order Disapproved  
+                                            </a>
+                                            <!---------Update Popup--------->
+                                            <div class="modal fade in" id="disapprove<?php echo $mo['order_id'];?>" tabindex="-1" role="dialog" style="height: 317px;">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title" id="defaultModalLabel">You order has been disapproved !</h4>
+                                                        </div>
+                                                        
+                                                        <div class="modal-body">
+                                                            <div class="card">
+                                <!--                                <div class="header">
+                                                                    <h2>
+                                                                        VERTICAL LAYOUT
+                                                                        <small>With floating label</small>
+                                                                    </h2>
+
+                                                                </div>-->
+                                                                <div class="body">
+                                                                   <div class="body table-responsive">
+                                                                    <table class="table table-bordered">
+                                                                            <tr>
+                                                                                <td>Disapprove Reason !</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th><?php echo $qu=$mo['reason'];?></th>
+                                                                            </tr>
+                                                                    </table>
+                                                                       <button type="button" class="btn btn-default waves-effect" data-dismiss="modal" style="margin-bottom: -15px;float: right;">CLOSE</button>   
+                                                                </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+<!--                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">CLOSE</button>
+                                                        </div>-->
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!------------End Update Popup-------------->   
+                                          <?php }
+                                          else if($mo['approve_status'] =='Yes'){
+                                            echo "<b style='color:#4bb44b;'>Order Approved</b>";  
+                                          }
+                                           else{
                                                echo "<b>Order Sent</b>";
                                            }?>
                                             
                                         </td>
                                         <td>
                                             <?php 
-                                           if($mo['status'] =='')
+                                           if($mo['status'] =='' || $mo['approve_status'] =='No')
                                            { ?>
                                             <button type="button" data-toggle="modal" data-target="#updateprod<?php echo $mo['order_id'];?>" class="btn btn-primary btn-circle waves-effect waves-circle waves-float">
                                                 <i class="material-icons">create</i>

@@ -40,7 +40,7 @@ if($module == 2){
                     </div></a>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                    <a href="ToDo" style="text-decoration: none;"><div class="info-box bg-cyan hover-expand-effect" style="cursor: pointer;">
+                    <a href="Approved_Orders" style="text-decoration: none;"><div class="info-box bg-cyan hover-expand-effect" style="cursor: pointer;">
                         <div class="icon">
                             <i class="material-icons">assignment</i>
                         </div>

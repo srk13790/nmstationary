@@ -184,7 +184,7 @@
                     <div class="card">
                         <div class="header">
                             <h2 style="text-align: center;">
-                                Pending Orders
+                                Approved Orders
 <!--                                <a data-toggle="modal" data-target="#defaultModal" style="cursor: pointer;">
                                     <i class="material-icons" style="float:right;">add</i>
                                 </a>-->
@@ -200,7 +200,8 @@
                                     <th>Product Name</th>
                                     <th>Quantity</th>
                                     <th>Price</th>
-                                    <th>Action</th>
+                                    <th>Approved Date</th>
+<!--                                    <th>Action</th>-->
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -215,7 +216,8 @@
                                         <td><?php echo $mo['product_name'];?></td>
                                         <td><?php echo $mo['quantity'];?></td>
                                         <td>&#8377; <?php echo $mo['price'];?></td>
-                                        <td>
+                                        <td><?php echo $mo['approve_date'];?></td>
+<!--                                        <td>
                                             <button type="button" data-toggle="modal" data-target="#updateprod<?php echo $mo['order_id'];?>" class="btn btn-primary btn-circle waves-effect waves-circle waves-float">
                                                 <i class="material-icons">done</i>
                                             </button>
@@ -224,7 +226,7 @@
                                                 <i class="material-icons">clear</i>
                                             </button>
                                             
-                                            <!---------Approve Popup--------->
+                                            -------Approve Popup-------
                                             <div class="modal fade in" id="updateprod<?php echo $mo['order_id'];?>" tabindex="-1" role="dialog">
                                                 <div class="modal-dialog" role="document">
                                                     <div class="modal-content">
@@ -239,13 +241,13 @@
                                                         ?>
                                                         <div class="modal-body">
                                                             <div class="card">
-                                <!--                                <div class="header">
+                                                                <div class="header">
                                                                     <h2>
                                                                         VERTICAL LAYOUT
                                                                         <small>With floating label</small>
                                                                     </h2>
 
-                                                                </div>-->
+                                                                </div>
                                                                 <div class="body">
                                                                     <b>Are you sure, You want to approve this order ?</b>
                                                                 </div>
@@ -262,9 +264,9 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!------------End Approve Popup-------------->
+                                            ----------End Approve Popup------------
                                            
-                                            <!---------DisApprove Popup--------->
+                                            -------DisApprove Popup-------
                                             <div class="modal fade in" id="disapprove<?php echo $mo['order_id'];?>" tabindex="-1" role="dialog">
                                                 <div class="modal-dialog" role="document">
                                                     <div class="modal-content">
@@ -279,13 +281,13 @@
                                                         ?>
                                                         <div class="modal-body">
                                                             <div class="card">
-                                <!--                                <div class="header">
+                                                                <div class="header">
                                                                     <h2>
                                                                         VERTICAL LAYOUT
                                                                         <small>With floating label</small>
                                                                     </h2>
 
-                                                                </div>-->
+                                                                </div>
                                                                 <div class="body">
                                                                    <div class="body table-responsive">
                                                                     <table class="table table-bordered">
@@ -312,9 +314,9 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!------------End Approve Popup-------------->
+                                            ----------End Approve Popup------------
                                             
-                                        </td>
+                                        </td>-->
                                     </tr>
                                     <?php }?>
                                 </tbody>
